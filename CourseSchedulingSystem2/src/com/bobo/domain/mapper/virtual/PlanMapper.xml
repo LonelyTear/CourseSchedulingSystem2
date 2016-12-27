@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="plan">
+	<typeAlias alias="Plan" type="com.bobo.domain.virtual.Plan"/>
+	
+	 <select id="select"  resultClass="Plan">
+		SELECT * FROM tbl_plan A 
+		<dynamic prepend = "where">
+			<isNotEmpty property="id" prepend="and">
+  				A.ID = #id:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="level" prepend="and">
+  				A.LEVEL = #level:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="studentId" prepend="and">
+  				A.STUDENTID = #studentId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="subjectId" prepend="and">
+  				A.SUBJECTID = #subjectId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="clazz" prepend="and">
+  				A.CLAZZ = #clazz:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="courseId" prepend="and">
+  				A.COURSEID = #courseId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="teacherId" prepend="and">
+  				A.TEACHERID = #teacherId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="roomId" prepend="and">
+  				A.ROOMID = #roomId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="weekNumber" prepend="and">
+  				A.WEEKNUMBER = #weekNumber:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="lessonNumber" prepend="and">
+  				A.LESSONNUMBER = #lessonNumber:INTEGER#
+  			</isNotEmpty>
+		</dynamic>
+		ORDER BY A.UPDATETIME DESC <!-- limit #skipResult# ,#maxResult# -->
+	</select>
+	
+	
+	<insert id="insert" parameterClass="Plan">
+		insert into tbl_plan (level, studentId, subjectId, clazz, courseId, teacherId, roomId, weekNumber, lessonNumber)
+		values (#clazz:INTEGER#,#studentId:INTEGER#,#subjectId:INTEGER#,#clazz:INTEGER#,#courseId:INTEGER#,#teacherId:INTEGER#,#roomId:INTEGER#,#weekNumber:INTEGER#,#lessonNumber:INTEGER#)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<delete id="delete" parameterClass="Plan">
+		delete from tbl_plan where id=#id#
+	</delete>
+	
+	<update id="update" parameterClass="Plan">
+    	update tbl_plan 
+	    <dynamic prepend="set" >
+  			<isNotEmpty property="level" prepend=",">
+  				LEVEL = #level:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="studentId" prepend=",">
+  				STUDENTID = #studentId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="subjectId" prepend=",">
+  				SUBJECTID = #subjectId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="clazz" prepend=",">
+  				CLAZZ = #clazz:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="courseId" prepend=",">
+  				COURSEID = #courseId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="teacherId" prepend=",">
+  				TEACHERID = #teacherId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="roomId" prepend=",">
+  				ROOMID = #roomId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="weekNumber" prepend=",">
+  				WEEKNUMBER = #weekNumber:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="lessonNumber" prepend=",">
+  				LESSONNUMBER = #lessonNumber:INTEGER#
+  			</isNotEmpty>
+	    </dynamic>
+    	where ID = #id:INTEGER#
+  	</update>
+		
+</sqlMap>

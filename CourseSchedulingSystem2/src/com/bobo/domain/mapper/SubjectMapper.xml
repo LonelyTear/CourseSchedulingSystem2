@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="subject">
+	<typeAlias alias="Subject" type="com.bobo.domain.Subject"/>
+	
+	 <select id="select"  resultClass="Subject">
+		SELECT * FROM tbl_subject A 
+		<dynamic prepend = "where">
+			<isNotEmpty property="id" prepend="and">
+  				A.ID = #id:INTEGER#
+  			</isNotEmpty>
+			<isNotEmpty property="name" prepend="and">
+  				A.NAME like %$name:VARCHAR$%
+  			</isNotEmpty>
+			<isNotEmpty property="majorFlag" prepend="and">
+  				A.MAJORFLAG = #majorFlag:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="maxPersons" prepend="and">
+  				A.MAXPERSONS = #maxPersons:INTEGER#
+  			</isNotEmpty>
+		</dynamic>
+		ORDER BY A.UPDATETIME DESC <!-- limit #skipResult# ,#maxResult# -->
+	</select>
+	
+	
+</sqlMap>

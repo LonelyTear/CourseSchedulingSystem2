@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="student">
+	<typeAlias alias="Student" type="com.bobo.domain.Student"/>
+	
+	 <select id="select"  resultClass="Student">
+		SELECT * FROM tbl_student A 
+		<dynamic prepend = "where">
+			<isNotEmpty property="id" prepend="and">
+  				A.ID = #id:INTEGER#
+  			</isNotEmpty>
+			<isNotEmpty property="name" prepend="and">
+  				A.NAME like %$name:VARCHAR$%
+  			</isNotEmpty>
+  			<isNotEmpty property="level" prepend="and">
+  				A.LEVEL = #level:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="address" prepend="and">
+  				A.ADDRESS = #address:VARCHAR#
+  			</isNotEmpty>
+  			<isNotEmpty property="tuition" prepend="and">
+  				A.TUITION = #tuition:DOUBLE#
+  			</isNotEmpty>
+  			<isNotEmpty property="birthDate" prepend="and">
+  				A.BIRTHDATE = #birthDate:DATE#
+  			</isNotEmpty>
+		</dynamic>
+		ORDER BY A.UPDATETIME DESC <!-- limit #skipResult# ,#maxResult# -->
+	</select>
+	
+	<select id="count"  resultClass="java.lang.Integer">
+		SELECT  count(*) acount FROM tbl_student A 
+		<dynamic prepend = "where">
+			<isNotEmpty property="id" prepend="and">
+  				A.ID = #id:INTEGER#
+  			</isNotEmpty>
+			<isNotEmpty property="name" prepend="and">
+  				A.NAME like %$name:VARCHAR$%
+  			</isNotEmpty>
+  			<isNotEmpty property="level" prepend="and">
+  				A.LEVEL = #level:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="address" prepend="and">
+  				A.ADDRESS = #address:VARCHAR#
+  			</isNotEmpty>
+  			<isNotEmpty property="tuition" prepend="and">
+  				A.TUITION = #tuition:DOUBLE#
+  			</isNotEmpty>
+  			<isNotEmpty property="birthDate" prepend="and">
+  				A.BIRTHDATE = #birthDate:DATE#
+  			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!--
+	<select id="getStudentById" resultClass="Student">
+		select * from tbl_student where id=#id#
+	</select>
+	
+	<select id="getMaxStudentId" resultClass="java.lang.Integer">
+		select id from tbl_student order by id desc limit 1
+	</select> -->
+	
+	<insert id="insertStudent" parameterClass="Student">
+		insert into tbl_student (name,level,address,tuition,birthdate)
+		values (#name:VARCHAR#,#level:INTEGER#,#address:VARCHAR#,#tuition:DOUBLE#,#birthDate:DATE#)
+	</insert>
+	
+	<delete id="delete" parameterClass="Student">
+		delete from tbl_student where id=#id#
+	</delete>
+	
+	<update id="updateStudent" parameterClass="Student">
+    	update tbl_student
+	    <dynamic prepend="set" >
+	      <isNotEmpty prepend="," property="name" >
+	        NAME = #name:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="level" >
+	        LEVEL = #level:INTEGER#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="address" >
+	        ADDRESS = #address:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="tuition" >
+	        TUITION = #tuition:DOUBLE#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="birthDate" >
+	        BIRTHDATE = #birthDate:DATE#
+	      </isNotEmpty>
+	    </dynamic>
+    	where ID = #id:INTEGER#
+  	</update>
+
+	<!-- 以id和name为key,value生成Map,未经测试 http://jun1986.iteye.com/blog/1404274 -->
+	<select id="selectMap" parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap">
+		SELECT T.id AS "val" , T.name AS "key" FROM STUDENT  T
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend=" AND " property="birthDate">
+				T.birthDate=#birthDate:DATE#
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY T.birthDate ASC
+	</select> 
+	
+</sqlMap>

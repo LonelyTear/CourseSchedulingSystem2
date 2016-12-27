@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="grade">
+	<typeAlias alias="Grade" type="com.bobo.domain.Grade"/>
+	
+	 <select id="select"  resultClass="Grade">
+		SELECT * FROM tbl_grade A 
+		<dynamic prepend = "where">
+			<isNotEmpty property="id" prepend="and">
+  				A.ID = #id:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="level" prepend="and">
+  				A.LEVEL = #level:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="subjectId" prepend="and">
+  				A.SUBJECTID = #subjectId:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="minPerDay" prepend="and">
+  				A.MIN = #min:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="maxPerDay" prepend="and">
+  				A.MAX = #max:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="perWeek" prepend="and">
+  				A.PERWEEK = #perWeek:INTEGER#
+  			</isNotEmpty>
+		</dynamic>
+		ORDER BY A.UPDATETIME DESC <!-- limit #skipResult# ,#maxResult# -->
+	</select>
+</sqlMap>

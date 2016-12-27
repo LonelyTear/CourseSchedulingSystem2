@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="teacher">
+	<typeAlias alias="Teacher" type="com.bobo.domain.Teacher"/>
+	
+	 <select id="select"  resultClass="Teacher">
+		SELECT * FROM tbl_teacher A
+		<dynamic prepend = "where">
+			<isNotEmpty property="id" prepend="and">
+  				A.ID = #id:INTEGER#
+  			</isNotEmpty>
+			<isNotEmpty property="name" prepend="and">
+  				A.NAME like %$name:VARCHAR$%
+  			</isNotEmpty>
+  			<isNotEmpty property="priority" prepend="and">
+  				A.PRIORITY = #priority:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="effect" prepend="and">
+  				A.EFFECT = #effect:INTEGER#
+  			</isNotEmpty>
+		</dynamic>
+		ORDER BY A.UPDATETIME DESC <!-- limit #skipResult# ,#maxResult# -->
+	</select>
+	
+</sqlMap>

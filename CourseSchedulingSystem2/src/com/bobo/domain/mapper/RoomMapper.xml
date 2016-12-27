@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="clazzroom">
+	<typeAlias alias="ClazzRoom" type="com.bobo.domain.Room"/>
+	
+	 <select id="select"  resultClass="ClazzRoom">
+		SELECT * FROM tbl_clazzroom A 
+		<dynamic prepend = "where">
+			<isNotEmpty property="id" prepend="and">
+  				A.ID = #id:INTEGER#
+  			</isNotEmpty>
+			<isNotEmpty property="name" prepend="and">
+  				A.NAME like %$name:VARCHAR$%
+  			</isNotEmpty>
+  			<isNotEmpty property="clazzRoomType" prepend="and">
+  				A.CLAZZROOMTYPE = #clazzRoomType:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="islimit" prepend="and">
+  				A.ISLIMIT = #islimit:INTEGER#
+  			</isNotEmpty>
+  			<isNotEmpty property="maxPersons" prepend="and">
+  				A.MAXPERSONS = #maxPersons:INTEGER#
+  			</isNotEmpty>
+		</dynamic>
+		ORDER BY A.UPDATETIME DESC <!-- limit #skipResult# ,#maxResult# -->
+	</select>
+	
+	
+</sqlMap>
